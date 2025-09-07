@@ -12,20 +12,20 @@ import { LlmProvider, LlmProviderId } from '../../models/llm.model';
   template: `
 <div class="space-y-8">
   <header>
-    <h1 class="text-3xl font-bold text-white">Article Generator</h1>
-    <p class="mt-2 text-gray-400">Create high-quality, SEO-optimized content in seconds.</p>
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Article Generator</h1>
+    <p class="mt-2 text-gray-500 dark:text-gray-400">Create high-quality, SEO-optimized content in seconds.</p>
   </header>
 
-  <section class="bg-gray-800 rounded-lg p-6 shadow-lg">
+  <section class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md">
     <form (submit)="generateArticles($event)" class="space-y-6">
       <div>
-        <label for="topic" class="block text-sm font-medium text-gray-300">Article Topic</label>
-        <input type="text" name="topic" id="topic" required class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-white" placeholder="e.g., 'The Future of Renewable Energy'">
+        <label for="topic" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Article Topic</label>
+        <input type="text" name="topic" id="topic" required class="mt-1 block w-full bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900 dark:text-white h-10 px-3" placeholder="e.g., 'The Future of Renewable Energy'">
       </div>
 
       <div>
-        <label for="website" class="block text-sm font-medium text-gray-300">Target Website</label>
-        <select name="website" id="website" required class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-white">
+        <label for="website" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Target Website</label>
+        <select name="website" id="website" required class="mt-1 block w-full bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900 dark:text-white h-10 px-3">
           <option value="" disabled selected>Select a website...</option>
           @for(site of connectedWebsites(); track site.id) {
             <option [value]="site.id">{{ site.name }} (Topic: {{ site.topic }})</option>
@@ -34,19 +34,19 @@ import { LlmProvider, LlmProviderId } from '../../models/llm.model';
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-300">AI Provider</label>
+        <label class="block text-sm font-medium text-gray-600 dark:text-gray-300">AI Provider</label>
         <div class="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-3">
           @for(provider of llmProviders(); track provider.id) {
             <button type="button" (click)="selectedProvider.set(provider.id)" 
-                    [class]="'p-3 rounded-lg border-2 flex flex-col items-center justify-center space-y-2 transition-all ' + (selectedProvider() === provider.id ? 'bg-indigo-600/20 border-indigo-500' : 'bg-gray-700/50 border-gray-600 hover:border-gray-500')">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" [class]="selectedProvider() === provider.id ? 'text-indigo-400' : 'text-gray-400'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" [attr.d]="provider.icon" /></svg>
-              <span class="text-sm font-medium" [class]="selectedProvider() === provider.id ? 'text-white' : 'text-gray-300'">{{ provider.name }}</span>
+                    [class]="'p-3 rounded-lg border-2 flex flex-col items-center justify-center space-y-2 transition-all ' + (selectedProvider() === provider.id ? 'bg-indigo-50 dark:bg-indigo-600/20 border-indigo-500' : 'bg-gray-100 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500')">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" [class]="selectedProvider() === provider.id ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-500 dark:text-gray-400'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" [attr.d]="provider.icon" /></svg>
+              <span class="text-sm font-medium" [class]="selectedProvider() === provider.id ? 'text-indigo-800 dark:text-white' : 'text-gray-700 dark:text-gray-300'">{{ provider.name }}</span>
             </button>
           }
         </div>
       </div>
       
-      <button type="submit" [disabled]="isLoading()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 disabled:bg-indigo-800 disabled:cursor-not-allowed text-lg">
+      <button type="submit" [disabled]="isLoading()" class="w-full bg-indigo-600 hover:bg-indigo-700 dark:hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 disabled:bg-indigo-400 dark:disabled:bg-indigo-800 disabled:cursor-not-allowed text-lg h-12">
         @if (isLoading()) {
           <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
           <span>Generating Article...</span>
@@ -60,38 +60,38 @@ import { LlmProvider, LlmProviderId } from '../../models/llm.model';
 
   @if (generatedArticles().length > 0) {
     <section class="space-y-4">
-      <h2 class="text-2xl font-bold text-white">Generated Content</h2>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Generated Content</h2>
       @for(article of generatedArticles(); track article.id) {
-        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-          <header class="p-4 bg-gray-700/50 flex justify-between items-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+          <header class="p-4 bg-gray-50 dark:bg-gray-700/50 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
             <div>
-              <h3 class="text-lg font-semibold text-white">{{ article.title }}</h3>
-              <p class="text-sm text-gray-400">For: {{ article.targetWebsiteName }}</p>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ article.title }}</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">For: {{ article.targetWebsiteName }}</p>
             </div>
             <div class="flex items-center space-x-4">
                 <div class="text-center">
-                    <p class="text-xs text-gray-400">SEO Score</p>
-                    <p class="text-xl font-bold text-green-400">{{ article.seoScore }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">SEO Score</p>
+                    <p class="text-xl font-bold text-green-600 dark:text-green-400">{{ article.seoScore }}</p>
                 </div>
                 @if (article.status === 'draft' || article.status === 'error') {
-                    <button (click)="publishArticle(article.id)" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2">
+                    <button (click)="publishArticle(article.id)" class="bg-teal-600 hover:bg-teal-700 dark:hover:bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2">
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
                         <span>Publish</span>
                     </button>
                 } @else if(article.status === 'publishing') {
-                     <button disabled class="bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center space-x-2 cursor-not-allowed">
+                     <button disabled class="bg-gray-400 dark:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center space-x-2 cursor-not-allowed">
                         <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                         <span>Publishing...</span>
                     </button>
                 } @else if(article.status === 'published') {
-                    <div class="bg-green-500/20 text-green-400 font-bold py-2 px-4 rounded-lg flex items-center space-x-2">
+                    <div class="bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400 font-bold py-2 px-4 rounded-lg flex items-center space-x-2">
                          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                          <span>Published</span>
                     </div>
                 }
             </div>
           </header>
-          <div class="p-4 prose prose-invert max-w-none text-gray-300 max-h-64 overflow-y-auto" [innerHTML]="article.content"></div>
+          <div class="p-4 prose prose-invert max-w-none text-gray-600 dark:text-gray-300 max-h-64 overflow-y-auto prose-h1:text-gray-900 dark:prose-h1:text-white prose-h2:text-gray-800 dark:prose-h2:text-gray-200" [innerHTML]="article.content"></div>
         </div>
       }
     </section>

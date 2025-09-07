@@ -17,6 +17,7 @@
     "@google/genai": "^1.17.0",
     "@angular/router": "^20.1.6-0",
     "@angular/animations": "^20.1.6-0",
+    "@angular/forms": "^20.1.6-0",
     "@angular/build": "^20.1.0",
     "@angular/cli": "^20.1.0",
     "@angular/compiler-cli": "^20.1.0",

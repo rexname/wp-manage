@@ -14,14 +14,23 @@
       height: 8px;
     }
     ::-webkit-scrollbar-track {
-      background: #1f2937; /* bg-gray-800 */
+      background: #e5e7eb; /* bg-gray-200 */
+    }
+    .dark ::-webkit-scrollbar-track {
+      background: #1f2937; /* dark:bg-gray-800 */
     }
     ::-webkit-scrollbar-thumb {
-      background: #4b5563; /* bg-gray-600 */
+      background: #9ca3af; /* bg-gray-400 */
       border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #4b5563; /* dark:bg-gray-600 */
     }
     ::-webkit-scrollbar-thumb:hover {
       background: #6b7280; /* bg-gray-500 */
+    }
+    .dark ::-webkit-scrollbar-thumb:hover {
+       background: #6b7280; /* dark:bg-gray-500 */
     }
   </style>
 <script type="importmap">
@@ -40,12 +49,13 @@
     "@angular/common": "https://next.esm.sh/@angular/common@^20.1.6-0?external=rxjs",
     "@google/genai": "https://next.esm.sh/@google/genai@^1.17.0?external=rxjs",
     "@angular/router": "https://next.esm.sh/@angular/router@^20.1.6-0?external=rxjs",
-    "@angular/animations": "https://next.esm.sh/@angular/animations@^20.1.6-0?external=rxjs"
+    "@angular/animations": "https://next.esm.sh/@angular/animations@^20.1.6-0?external=rxjs",
+    "@angular/forms": "https://next.esm.sh/@angular/forms@^20.1.6-0?external=rxjs"
   }
 }
 </script>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans antialiased">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans antialiased">
   <app-root></app-root>
 </body>
 </html>

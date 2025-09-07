@@ -29,9 +29,9 @@ export class NotificationComponent {
   notification = this.notificationService.notification;
 
   typeClasses = {
-    success: 'bg-green-600 border-green-500',
-    error: 'bg-red-600 border-red-500',
-    info: 'bg-blue-600 border-blue-500'
+    success: 'bg-green-500 dark:bg-green-600 border-green-400 dark:border-green-500',
+    error: 'bg-red-500 dark:bg-red-600 border-red-400 dark:border-red-500',
+    info: 'bg-blue-500 dark:bg-blue-600 border-blue-400 dark:border-blue-500'
   };
 
   iconPaths = {

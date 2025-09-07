@@ -18,12 +18,24 @@ export class WordpressService {
   addWebsite(website: Omit<WordpressWebsite, 'id' | 'articlesPublished' | 'status'>) {
     const newWebsite: WordpressWebsite = {
         ...website,
-        id: (this.websites().length + 1).toString(),
+        id: Date.now().toString(),
         articlesPublished: 0,
-        status: 'connected',
+        status: 'connected', // Simulate successful connection
     };
     this.websites.update(sites => [...sites, newWebsite]);
     return of(newWebsite).pipe(delay(500));
+  }
+
+  updateWebsite(updatedSite: WordpressWebsite) {
+    this.websites.update(sites =>
+      sites.map(site => (site.id === updatedSite.id ? updatedSite : site))
+    );
+     return of(updatedSite).pipe(delay(500));
+  }
+
+  removeWebsite(id: string) {
+    this.websites.update(sites => sites.filter(site => site.id !== id));
+    return of({ success: true }).pipe(delay(500));
   }
   
   publishArticle(websiteId: string) {

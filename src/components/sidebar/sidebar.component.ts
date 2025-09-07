@@ -1,6 +1,9 @@
 
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeService } from '../../services/theme.service';
+import { CommonModule } from '@angular/common';
+
 
 interface NavLink {
   path: string;
@@ -11,26 +14,26 @@ interface NavLink {
 @Component({
   selector: 'app-sidebar',
   template: `
-<aside [class]="'relative h-full flex flex-col bg-gray-800 text-gray-300 transition-all duration-300 ease-in-out ' + (isExpanded() ? 'w-64' : 'w-20')">
-  <div class="flex items-center justify-center h-20 border-b border-gray-700 flex-shrink-0">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<aside [class]="'relative h-full flex flex-col bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 transition-all duration-300 ease-in-out ' + (isExpanded() ? 'w-64' : 'w-20')">
+  <div class="flex items-center justify-center h-20 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-500 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m8-8h2M4 12H2m15.364 6.364l-1.414-1.414M6.343 6.343l-1.414-1.414m12.728 0l-1.414 1.414M6.343 17.657l-1.414 1.414M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
     </svg>
     @if (isExpanded()) {
-      <span class="ml-2 text-xl font-bold">WP Suite</span>
+      <span class="ml-2 text-xl font-bold text-gray-800 dark:text-white">WP Suite</span>
     }
   </div>
   <nav class="mt-4 flex-1 overflow-y-auto">
     <ul>
       @for (link of navLinks(); track link.path) {
         <li>
-          <a [routerLink]="link.path" routerLinkActive="bg-gray-700 text-white" 
-             class="flex items-center h-12 px-6 hover:bg-gray-700/50 transition-colors duration-200">
+          <a [routerLink]="link.path" routerLinkActive="bg-gray-100 dark:bg-gray-700 text-indigo-600 dark:text-white" 
+             class="flex items-center h-12 px-6 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors duration-200">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="link.icon" />
             </svg>
             @if (isExpanded()) {
-              <span class="ml-4">{{ link.label }}</span>
+              <span class="ml-4 font-medium">{{ link.label }}</span>
             }
           </a>
         </li>
@@ -38,7 +41,24 @@ interface NavLink {
     </ul>
   </nav>
 
-  <button (click)="toggleSidebar()" class="absolute -right-4 top-16 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-800 transition-transform duration-300"
+  <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+    <button (click)="themeService.toggleTheme()" 
+            class="w-full flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg p-2 transition-colors duration-200">
+        @if (themeService.theme() === 'dark') {
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+        } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+        }
+        @if (isExpanded()) {
+            <span class="ml-4 text-sm font-semibold">
+                {{ themeService.theme() === 'dark' ? 'Light Mode' : 'Dark Mode' }}
+            </span>
+        }
+    </button>
+  </div>
+
+
+  <button (click)="toggleSidebar()" class="absolute -right-4 top-16 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 transition-transform duration-300"
           [class.rotate-180]="!isExpanded()">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -47,9 +67,10 @@ interface NavLink {
 </aside>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, CommonModule],
 })
 export class SidebarComponent {
+  themeService = inject(ThemeService);
   isExpanded = signal(true);
 
   navLinks = signal<NavLink[]>([

@@ -6,7 +6,59 @@ import { WordpressWebsite } from '../../models/website.model';
 
 @Component({
   selector: 'app-websites',
-  templateUrl: './websites.component.html',
+  template: `
+<div class="space-y-8">
+  <header class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-white">Manage Websites</h1>
+      <p class="mt-2 text-gray-400">Add, monitor, and manage your WordPress sites.</p>
+    </div>
+    <button class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2">
+      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+      <span>Add Website</span>
+    </button>
+  </header>
+
+  <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="bg-gray-700/50">
+          <tr>
+            <th class="p-4 font-semibold">Website Name</th>
+            <th class="p-4 font-semibold">URL</th>
+            <th class="p-4 font-semibold">Status</th>
+            <th class="p-4 font-semibold text-center">Articles</th>
+            <th class="p-4 font-semibold">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (site of websites(); track site.id) {
+            <tr class="border-b border-gray-700 hover:bg-gray-700/30 transition-colors duration-200">
+              <td class="p-4 font-medium">{{ site.name }}</td>
+              <td class="p-4 text-gray-400"><a [href]="site.url" target="_blank" class="hover:text-indigo-400">{{ site.url }}</a></td>
+              <td class="p-4">
+                <span [class]="'px-2 py-1 rounded-full text-xs font-medium ' + statusClasses[site.status]">
+                  {{ site.status }}
+                </span>
+              </td>
+              <td class="p-4 text-center text-gray-300 font-mono">{{ site.articlesPublished }}</td>
+              <td class="p-4">
+                <button class="text-gray-400 hover:text-white transition-colors">
+                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" /></svg>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="p-8 text-center text-gray-500">No websites added yet.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })

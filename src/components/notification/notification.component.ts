@@ -3,12 +3,24 @@ import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../services/notification.service';
 
-// NOTE: Since Angular animations might not be supported in all Applet environments,
-// this is a placeholder. If they don't work, the notification will still appear/disappear,
-// just without the smooth transition. A pure CSS transition is safer.
 @Component({
   selector: 'app-notification',
-  templateUrl: './notification.component.html',
+  template: `
+@if (notification(); as notif) {
+  <div class="fixed bottom-5 right-5 z-50">
+    <div [class]="'flex items-center p-4 text-white rounded-lg shadow-lg border-l-4 ' + typeClasses[notif.type]">
+      <div class="flex-shrink-0">
+         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="iconPaths[notif.type]"></path>
+        </svg>
+      </div>
+      <div class="ml-3 text-sm font-medium">
+        {{ notif.message }}
+      </div>
+    </div>
+  </div>
+}
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })

@@ -3,27 +3,27 @@ import { Routes } from '@angular/router';
 export const APP_ROUTES: Routes = [
   {
     path: 'dashboard',
-    loadComponent: () => import('./components/dashboard/dashboard.component.ts').then(c => c.DashboardComponent),
+    loadComponent: () => import('./components/dashboard/dashboard.component').then(c => c.DashboardComponent),
     title: 'Dashboard'
   },
   {
     path: 'websites',
-    loadComponent: () => import('./components/websites/websites.component.ts').then(c => c.WebsitesComponent),
+    loadComponent: () => import('./components/websites/websites.component').then(c => c.WebsitesComponent),
     title: 'Manage Websites'
   },
   {
     path: 'keywords',
-    loadComponent: () => import('./components/keywords/keywords.component.ts').then(c => c.KeywordsComponent),
+    loadComponent: () => import('./components/keywords/keywords.component').then(c => c.KeywordsComponent),
     title: 'Keyword Trends'
   },
   {
     path: 'generator',
-    loadComponent: () => import('./components/generator/generator.component.ts').then(c => c.GeneratorComponent),
+    loadComponent: () => import('./components/generator/generator.component').then(c => c.GeneratorComponent),
     title: 'Article Generator'
   },
   {
     path: 'settings',
-    loadComponent: () => import('./components/settings/settings.component.ts').then(c => c.SettingsComponent),
+    loadComponent: () => import('./components/settings/settings.component').then(c => c.SettingsComponent),
     title: 'Settings'
   },
   {

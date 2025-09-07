@@ -8,7 +8,17 @@ import { NotificationComponent } from './components/notification/notification.co
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+<div class="flex h-screen bg-gray-900 text-gray-100">
+  <app-sidebar></app-sidebar>
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <div class="flex-1 p-6 lg:p-8 overflow-y-auto">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+  <app-notification></app-notification>
+</div>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, RouterOutlet, SidebarComponent, NotificationComponent],
 })
